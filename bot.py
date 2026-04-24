@@ -1,14 +1,18 @@
 import telebot
+import os
 
-TOKEN = "8373105920:AAF5VbDpWBJqQD6pPXOO3efDTwctwkbfGi8"
-CHANNEL_ID = "@bangladeshkobor"
-ADMIN_ID = 7288385191
+TOKEN = os.getenv("8373105920:AAF5VbDpWBJqQD6pPXOO3efDTwctwkbfGi8")
+CHANNEL_ID = os.getenv("CHANNEL_ID")
+ADMIN_ID = int(os.getenv("ADMIN_ID"))
 
 bot = telebot.TeleBot(TOKEN)
 
+users = set()
+
 @bot.message_handler(commands=['start'])
 def start(message):
-    bot.reply_to(message, "🤖 Bot working!")
+    users.add(message.from_user.id)
+    bot.reply_to(message, "🤖 Bot Active!")
 
 @bot.message_handler(commands=['post'])
 def post(message):
@@ -19,5 +23,5 @@ def post(message):
     else:
         bot.reply_to(message, "❌ Not allowed!")
 
-print("Bot running...")
+print("Bot Running...")
 bot.infinity_polling()
